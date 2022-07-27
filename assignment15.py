@@ -57,18 +57,18 @@ class Assignment15(unittest.TestCase):
         browser = self.browser
         browser.get("http://barru.pythonanywhere.com/daftar")
         time.sleep(5)
-        browser.find_element(By.XPATH,"/html/body/div/div[2]/form/input[1]").send_keys("eka091294@gmail.com")
+        browser.find_element(By.XPATH,"/html/body/div/div[2]/form/input[1]").send_keys("e0337884@u.nus.edu")
         time.sleep(1)
         browser.find_element(By.CSS_SELECTOR,"input#password").send_keys("123456")
         time.sleep(1)
         browser.find_element(By.ID,"signin_login").click()
-        time.sleep(1)
+        time.sleep(2)
 
         # validasi
         response_data = browser.find_element(By.ID,"swal2-title").text
         response_message = browser.find_element(By.ID,"swal2-content").text
 
-        self.assertIn('not found', response_data)
+        self.assertIn(response_data, "User's not found")
         self.assertEqual(response_message, 'Email atau Password Anda Salah')
 
     def test_a_failed_login_with_right_email_and_wrong_password(self): 
@@ -81,7 +81,7 @@ class Assignment15(unittest.TestCase):
         browser.find_element(By.CSS_SELECTOR,"input#password").send_keys("098764")
         time.sleep(1)
         browser.find_element(By.ID,"signin_login").click()
-        time.sleep(1)
+        time.sleep(2)
 
         response_data = browser.find_element(By.ID,"swal2-title").text
         response_message = browser.find_element(By.ID,"swal2-content").text
@@ -100,7 +100,7 @@ class Assignment15(unittest.TestCase):
         browser.find_element(By.ID,"login-button").click()
         time.sleep(1)
 
-        response_message = browser.find_element(By.CLASS,"error-button").text
+        response_message = browser.find_element(By.CLASS_NAME, "error-message-container").text
 
         self.assertEqual(response_message, 'Epic sadface: Sorry, this user has been locked out.')   
 
