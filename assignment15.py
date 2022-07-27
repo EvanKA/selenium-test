@@ -14,24 +14,24 @@ class Assignment15(unittest.TestCase):
     
         browser = self.browser
         browser.get("http://barru.pythonanywhere.com/login")
-        time.sleep(5)
+        time.sleep(3)
 
-        response_data = browser.find_element(By.ID,"swal2-title").text
-        response_message = browser.find_element(By.ID,"swal2-content").text
+        response_data = browser.find_element(By.TAG_NAME,"h1").text
+        response_message = browser.find_element(By.TAG_NAME,"p").text
 
-        self.assertIn('Method Not Allowed', response_data)
+        self.assertEqual(response_data, 'Method Not Allowed')
         self.assertEqual(response_message, 'The method is not allowed for the requested URL.')  
    
     def test_404(self): 
     
         browser = self.browser
         browser.get("http://barru.pythonanywhere.com/abc")
-        time.sleep(5)
+        time.sleep(3)
 
-        response_data = browser.find_element(By.ID,"swal2-title").text
-        response_message = browser.find_element(By.ID,"swal2-content").text
+        response_data = browser.find_element(By.TAG_NAME,"h1").text
+        response_message = browser.find_element(By.TAG_NAME,"p").text
 
-        self.assertIn('Not Found', response_data)
+        self.assertEqual(response_data, 'Not Found')
         self.assertEqual(response_message, 'The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.')        
         
     def test_a_success_login(self): 
@@ -40,11 +40,11 @@ class Assignment15(unittest.TestCase):
         browser.get("http://barru.pythonanywhere.com/daftar")
         time.sleep(5)
         browser.find_element(By.XPATH,"/html/body/div/div[2]/form/input[1]").send_keys("tester@jagoqa.com")
-        time.sleep(5)
+        time.sleep(1)
         browser.find_element(By.CSS_SELECTOR,"input#password").send_keys("testerjago")
-        time.sleep(5)
+        time.sleep(1)
         browser.find_element(By.ID,"signin_login").click()
-        time.sleep(5)
+        time.sleep(1)
 
         response_data = browser.find_element(By.ID,"swal2-title").text
         response_message = browser.find_element(By.ID,"swal2-content").text
@@ -58,11 +58,11 @@ class Assignment15(unittest.TestCase):
         browser.get("http://barru.pythonanywhere.com/daftar")
         time.sleep(5)
         browser.find_element(By.XPATH,"/html/body/div/div[2]/form/input[1]").send_keys("eka091294@gmail.com")
-        time.sleep(5)
+        time.sleep(1)
         browser.find_element(By.CSS_SELECTOR,"input#password").send_keys("123456")
-        time.sleep(5)
+        time.sleep(1)
         browser.find_element(By.ID,"signin_login").click()
-        time.sleep(5)
+        time.sleep(1)
 
         # validasi
         response_data = browser.find_element(By.ID,"swal2-title").text
@@ -77,62 +77,32 @@ class Assignment15(unittest.TestCase):
         browser.get("http://barru.pythonanywhere.com/daftar")
         time.sleep(5)
         browser.find_element(By.XPATH,"/html/body/div/div[2]/form/input[1]").send_keys("tester@jagoqa.com")
-        time.sleep(5)
+        time.sleep(1)
         browser.find_element(By.CSS_SELECTOR,"input#password").send_keys("098764")
-        time.sleep(5)
+        time.sleep(1)
         browser.find_element(By.ID,"signin_login").click()
-        time.sleep(5)
+        time.sleep(1)
 
         response_data = browser.find_element(By.ID,"swal2-title").text
         response_message = browser.find_element(By.ID,"swal2-content").text
 
-        self.assertIn('tidak valid', response_data)
-        self.assertEqual(response_message, 'Cek kembali email anda')
+        self.assertIn(response_data, "User's not found")
+        self.assertEqual(response_message, 'Email atau Password Anda Salah')
 
     def test_saucedemo_locked_out_user(self):
         browser = self.browser
         browser.get("https://www.saucedemo.com")
         time.sleep(5)
-        browser.find_element(By.NAME,"email").send_keys("locked_out_user")
-        time.sleep(5)
+        browser.find_element(By.NAME,"user-name").send_keys("locked_out_user")
+        time.sleep(1)
         browser.find_element(By.NAME,"password").send_keys("secret_sauce")
-        time.sleep(5)
+        time.sleep(1)
         browser.find_element(By.ID,"login-button").click()
-        time.sleep(5)
+        time.sleep(1)
 
         response_message = browser.find_element(By.CLASS,"error-button").text
 
         self.assertEqual(response_message, 'Epic sadface: Sorry, this user has been locked out.')   
-        
-    def test_saucedemo_problem_user(self):
-        browser = self.browser
-        browser.get("https://www.saucedemo.com")
-        time.sleep(5)
-        browser.find_element(By.NAME,"email").send_keys("problem_user")
-        time.sleep(5)
-        browser.find_element(By.NAME,"password").send_keys("secret_sauce")
-        time.sleep(5)
-        browser.find_element(By.ID,"login-button").click()
-        time.sleep(5)
-
-        response_message = browser.find_element(By.CLASS,"error-button").text
-
-        self.assertEqual(response_message, 'User not in good standing.')
-        
-    def test_saucedemo_performance_glitch_user(self):
-        browser = self.browser
-        browser.get("https://www.saucedemo.com")
-        time.sleep(5)
-        browser.find_element(By.NAME,"email").send_keys("problem_user")
-        time.sleep(5)
-        browser.find_element(By.NAME,"password").send_keys("secret_sauce")
-        time.sleep(5)
-        browser.find_element(By.ID,"login-button").click()
-        time.sleep(5)
-
-        response_message = browser.find_element(By.CLASS,"error-button").text
-
-        self.assertEqual(response_message, 'Please wait.')
 
     def tearDown(self): 
         self.browser.close() 
