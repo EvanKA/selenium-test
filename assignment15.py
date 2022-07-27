@@ -89,6 +89,51 @@ class Assignment15(unittest.TestCase):
         self.assertIn('tidak valid', response_data)
         self.assertEqual(response_message, 'Cek kembali email anda')
 
+    def test_saucedemo_locked_out_user(self):
+        browser = self.browser
+        browser.get("https://www.saucedemo.com")
+        time.sleep(5)
+        browser.find_element(By.NAME,"email").send_keys("locked_out_user")
+        time.sleep(5)
+        browser.find_element(By.NAME,"password").send_keys("secret_sauce")
+        time.sleep(5)
+        browser.find_element(By.ID,"login-button").click()
+        time.sleep(5)
+
+        response_message = browser.find_element(By.CLASS,"error-button").text
+
+        self.assertEqual(response_message, 'Epic sadface: Sorry, this user has been locked out.')   
+        
+    def test_saucedemo_problem_user(self):
+        browser = self.browser
+        browser.get("https://www.saucedemo.com")
+        time.sleep(5)
+        browser.find_element(By.NAME,"email").send_keys("problem_user")
+        time.sleep(5)
+        browser.find_element(By.NAME,"password").send_keys("secret_sauce")
+        time.sleep(5)
+        browser.find_element(By.ID,"login-button").click()
+        time.sleep(5)
+
+        response_message = browser.find_element(By.CLASS,"error-button").text
+
+        self.assertEqual(response_message, 'User not in good standing.')
+        
+    def test_saucedemo_performance_glitch_user(self):
+        browser = self.browser
+        browser.get("https://www.saucedemo.com")
+        time.sleep(5)
+        browser.find_element(By.NAME,"email").send_keys("problem_user")
+        time.sleep(5)
+        browser.find_element(By.NAME,"password").send_keys("secret_sauce")
+        time.sleep(5)
+        browser.find_element(By.ID,"login-button").click()
+        time.sleep(5)
+
+        response_message = browser.find_element(By.CLASS,"error-button").text
+
+        self.assertEqual(response_message, 'Please wait.')
+
     def tearDown(self): 
         self.browser.close() 
 
